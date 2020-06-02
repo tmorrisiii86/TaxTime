@@ -1,0 +1,60 @@
+﻿@model TaxTime4.Models.Dependent
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<h4>Dependent</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CustId" class="control-label"></label>
+                <select asp-for="CustId" class ="form-control" asp-items="ViewBag.CustId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="input-group">
+                <input asp-for="Ssn1" maxlength="3" style="width:60px" placeholder="XXX" class="form-control" />
+                <span asp-validation-for="Ssn1" class="text-danger"></span>
+                <input asp-for="Ssn2" maxlength="2" style="width:50px" placeholder="XX" class="form-control" />
+                <span asp-validation-for="Ssn2" class="text-danger"></span>
+                <input asp-for="Ssn3" maxlength="4" style="width:70px" placeholder="XXXX" class="form-control" />
+                <span asp-validation-for="Ssn3" class="text-danger"></span>
+            </div>
+            <div class="form-group"hidden>
+                <label asp-for="LastUpdated" class="control-label"></label>
+                <input asp-for="LastUpdated" class="form-control" />
+                <span asp-validation-for="LastUpdated" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" id="depForm" />
+                <label>More Dependents?</label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

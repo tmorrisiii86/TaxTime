@@ -1,0 +1,102 @@
+﻿@model IEnumerable<TaxTime4.Models.Contact>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Home1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Home2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Home3)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cell1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cell2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cell3)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Work1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Work2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Work3)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastUpdated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cust)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Home1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Home2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Home3)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cell1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cell2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cell3)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Work1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Work2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Work3)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastUpdated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cust.FirstName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ContactId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ContactId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ContactId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
