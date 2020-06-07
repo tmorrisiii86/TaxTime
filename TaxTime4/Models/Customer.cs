@@ -14,7 +14,7 @@ namespace TaxTime4.Models
             Contact = new HashSet<Contact>();
             Dependent = new HashSet<Dependent>();
         }
-        [Key][ForeignKey("CustId")]
+        [Key] [ForeignKey("CustId")]
         public int CustId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -28,5 +28,7 @@ namespace TaxTime4.Models
         public ICollection<Address> Address { get; set; }
         public ICollection<Contact> Contact { get; set; }
         public ICollection<Dependent> Dependent { get; set; }
+
+        
     }
 }

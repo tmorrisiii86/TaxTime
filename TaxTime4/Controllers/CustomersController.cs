@@ -22,10 +22,15 @@ namespace TaxTime4.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
+            var customers = from c in _context.Customer select c;
 
-            return View(await _context.Customer.ToListAsync());
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                customers = customers.Where(s => s.LastName.Contains(searchString));
+            }
+            return View(await customers.ToListAsync());
         }
 
         // GET: Customers/Details/5
@@ -43,6 +48,25 @@ namespace TaxTime4.Controllers
                 return NotFound();
             }
 
+            return View(customer);
+        }
+
+        // GET: AllCustomerInfo
+        public async Task<IActionResult> AllCustomerInfo(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var customer = await _context.Customer
+                .FirstOrDefaultAsync(m => m.CustId == id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.All = (_context.Customer, _context.Address, _context.Contact, _context.Dependent, _context.Deposit, _context.Appointment);
             return View(customer);
         }
 
@@ -64,7 +88,7 @@ namespace TaxTime4.Controllers
             if (ModelState.IsValid)
             {
                 Customer NewCustomer = new Customer();
-                NewCustomer.CustId = customer.CustId;
+                //NewCustomer.CustId = customer.CustId;
                 NewCustomer.FirstName = customer.FirstName;
                 NewCustomer.LastName = customer.LastName;
                 NewCustomer.Ssn1 = customer.Ssn1;
@@ -73,8 +97,8 @@ namespace TaxTime4.Controllers
                 NewCustomer.LastUpdated = customer.LastUpdated = DateTime.Now;
                 _context.Customer.Add(NewCustomer);
                 await _context.SaveChangesAsync();
-                
-                return RedirectToAction("Create", "Addresses", new { id = customer.CustId == address.CustId });
+                NewCustomer.CustId = _context.Customer.Max(c => c.CustId);
+                return RedirectToAction("Create", "Addresses", new { CustId = NewCustomer.CustId });
             }
 
 

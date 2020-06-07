@@ -1,0 +1,161 @@
+﻿@model TaxTime4.ViewModels.CustomerInfoViewModel
+@{
+    ViewData["Title"] = "AllCustomerInfo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customer Information</h2>
+
+<div>
+    <h4>@Model.Customer.FirstName @Model.Customer.LastName</h4>
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Customer.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Customer.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.Ssn1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Customer.Ssn1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.Ssn2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Customer.Ssn2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.Ssn3)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Customer.Ssn3)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.LastUpdated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Customer.LastUpdated)
+        </dd>
+        <h4>Address</h4>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address.Address1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address.Address1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address.Address2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address.Address2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address.City)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address.City)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address.State)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address.State)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address.ZipCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address.ZipCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address.LastUpdated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address.LastUpdated)
+        </dd>
+        <h4>Contact Information</h4>
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact.Home1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Contact.Home1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact.Home2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Contact.Home2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact.Home3)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Contact.Home3)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact.Cell1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Contact.Cell1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact.Cell2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Contact.Cell2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact.Cell3)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Contact.Cell3)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact.Work1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Contact.Work1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact.Work2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Contact.Work2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact.Work3)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Contact.Work3)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Contact.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact.LastUpdated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Contact.LastUpdated)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Customer">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+

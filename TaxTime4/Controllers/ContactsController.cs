@@ -58,7 +58,7 @@ namespace TaxTime4.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Contact contact)
+        public async Task<IActionResult> Create([Bind("ContactId,CustId,Home1,Home2,Home3,Cell1,Cell2,Cell3,Work1,Work2,Work3,Email,LastUpdated,CheckBox")] Contact contact, bool checkBox)
         {
             if (ModelState.IsValid)
             {
@@ -75,10 +75,18 @@ namespace TaxTime4.Controllers
                 NewContact.Work2 = contact.Work2;
                 NewContact.Work3 = contact.Work3;
                 NewContact.Email = contact.Email;
+                NewContact.CheckBox = contact.CheckBox;
                 NewContact.LastUpdated = contact.LastUpdated = DateTime.Now;
                 _context.Contact.Add(NewContact);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                switch (NewContact.CheckBox)
+                {
+                    case true:
+                        return RedirectToAction("Create", "Dependents", new { CustId = NewContact.CustId });
+                    default:
+                        return RedirectToAction("Create", "Deposit", new { CustId = NewContact.CustId });
+                }
             }
 
             ViewData["CustId"] = new SelectList(_context.Customer, "CustId", "CustId", contact.CustId);

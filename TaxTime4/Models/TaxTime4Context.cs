@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using TaxTime4.ViewModels;
 
 namespace TaxTime4.Models
 {

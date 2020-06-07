@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TaxTime4.Models;
+using TaxTime4.ViewModels;
 
 namespace TaxTime4.Controllers
 {
@@ -20,6 +21,13 @@ namespace TaxTime4.Controllers
 
         // GET: Appointments
         public async Task<IActionResult> Index()
+        {
+            var taxTime4Context = _context.Appointment.Include(a => a.Cust);
+            return View(await taxTime4Context.ToListAsync());
+        }
+
+        // GET: Cold Call Infomation
+        public async Task<IActionResult> ColdCall()
         {
             var taxTime4Context = _context.Appointment.Include(a => a.Cust);
             return View(await taxTime4Context.ToListAsync());
@@ -71,7 +79,7 @@ namespace TaxTime4.Controllers
                 NewAppointment.LastUpdated = appointment.LastUpdated = DateTime.Now;
                 _context.Appointment.Add(NewAppointment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("AllCustomerInfo", "Customers", new { CustId = NewAppointment.CustId });
             }
 
             ViewData["CustId"] = new SelectList(_context.Customer, "CustId", "CustId", appointment.CustId);

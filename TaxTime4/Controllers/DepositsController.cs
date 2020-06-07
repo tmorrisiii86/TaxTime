@@ -70,7 +70,7 @@ namespace TaxTime4.Controllers
                 NewDeposit.LastUpdated = deposit.LastUpdated = DateTime.Now;
                 _context.Deposit.Add(NewDeposit);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Create", "Appointments", new { CustId = NewDeposit.CustId });
             }
 
             ViewData["CustId"] = new SelectList(_context.Customer, "CustId", "CustId", deposit.CustId);

@@ -22,6 +22,8 @@ namespace TaxTime4.Models
         public decimal? Work3 { get; set; }
         public string Email { get; set; }
         public DateTime LastUpdated { get; set; }
+        public bool CheckBox { get; set; }
+
 
         public Customer Cust { get; set; }
     }

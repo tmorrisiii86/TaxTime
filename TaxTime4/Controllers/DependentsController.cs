@@ -74,7 +74,8 @@ namespace TaxTime4.Controllers
                 NewDependent.LastUpdated = dependent.LastUpdated = DateTime.Now;
                 _context.Dependent.Add(NewDependent);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //if else statment
+                return RedirectToAction("Create", "Dependents", new { CustId = NewDependent.CustId });
             }
 
             ViewData["CustId"] = new SelectList(_context.Customer, "CustId", "CustId", dependent.CustId);

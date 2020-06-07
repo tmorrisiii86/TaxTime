@@ -52,7 +52,7 @@ namespace TaxTime4.Controllers
         public IActionResult Create(int custId, Customer customer, Address address)
         {
             Address pass = new Address { CustId = custId };
-            pass.CustId = 
+            
             pass.LastUpdated = DateTime.Now;
             
             ViewData["CustId"] = new SelectList(_context.Customer, "CustId", "CustId");
@@ -64,7 +64,7 @@ namespace TaxTime4.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Address address)
+        public async Task<IActionResult> Create([Bind("AddressId,CustId,Address1,Address2,City,State,ZipCode,LastUpdated")] Address address)
         {
             if (ModelState.IsValid)
             {
@@ -79,10 +79,10 @@ namespace TaxTime4.Controllers
                 NewAddress.LastUpdated = address.LastUpdated = DateTime.Now;
                 _context.Address.Add(NewAddress);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Create", "Contacts");
+                return RedirectToAction("Create", "Contacts", new { CustId = NewAddress.CustId });
             }
 
-            ViewData["CustId"] = new SelectList(_context.Customer, "CustId", "CustId", address.CustId);
+            //ViewData["CustId"] = new SelectList(_context.Customer, "CustId", "CustId", address.CustId);
             return View(address);
         }
 

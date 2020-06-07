@@ -11,13 +11,15 @@ namespace TaxTime4.ViewModels
 {
     public class CustomerInfoViewModel
     {
-        public Customer customer { get; set; }
-        public Address address { get; set; }
-        public Contact contact { get; set; }
-        public Dependent dependent { get; set; }
-        public Deposit deposit { get; set; }
-        public Appointment appointment { get; set; }
-        
+        public Customer Customer { get; set; }
+        public Address Address { get; set; }
+        public Contact Contact { get; set; }
+        public Dependent Dependent { get; set; }
+        public Deposit Deposit { get; set; }
+        public Appointment Appointment { get; set; }
+
+       
+
 
         public CustomerInfoViewModel()
         {
