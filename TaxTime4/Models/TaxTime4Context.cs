@@ -255,8 +255,7 @@ namespace TaxTime4.Models
                 entity.ToTable("deposit");
 
                 entity.Property(e => e.CustId)
-                    .HasColumnName("cust_id")
-                    .ValueGeneratedOnAdd();
+                    .HasColumnName("cust_id");
 
                 entity.Property(e => e.Account)
                     .HasColumnName("account")
@@ -269,6 +268,7 @@ namespace TaxTime4.Models
                 entity.Property(e => e.Routing)
                     .HasColumnName("routing")
                     .HasColumnType("numeric(9, 0)");
+                    
 
                 entity.HasOne(d => d.Cust)
                     .WithOne(p => p.Deposit)

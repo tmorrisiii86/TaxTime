@@ -13,18 +13,23 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CustId" />
+            <div class="form-group" hidden>
+
+                @Html.DisplayFor(model => model.CustId)
+                <input asp-for="CustId" value="@Model.CustId" class="form-control" />
+                <span asp-validation-for="CustId" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Routing" class="control-label"></label>
-                <input asp-for="Routing" class="form-control" />
+                <input asp-for="Routing" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="9" type="number" class="form-control" />
                 <span asp-validation-for="Routing" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Account" class="control-label"></label>
-                <input asp-for="Account" class="form-control" />
+                <input asp-for="Account" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="12" type="number" class="form-control" />
                 <span asp-validation-for="Account" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="LastUpdated" class="control-label"></label>
                 <input asp-for="LastUpdated" class="form-control" />
                 <span asp-validation-for="LastUpdated" class="text-danger"></span>
@@ -37,7 +42,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Customers" asp-action="AllCustomerInfo" asp-route-id="@Model.CustId">Customer Info</a>
 </div>
 
 @section Scripts {

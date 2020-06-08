@@ -1,10 +1,10 @@
 ﻿@model TaxTime4.Models.Customer
 @{
-    ViewData["Title"] = "AllCustomerInfo";
+    ViewData["Title"] = "AdminDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Customer Information</h2>
+<h2>Administrator's Customer Information</h2>
 
 <div>
     <h4>@Model.FirstName @Model.LastName</h4>
@@ -50,35 +50,41 @@
     </dl>
     <div>
         <a asp-action="Edit" asp-route-id="@Model.CustId">Edit</a>
+        <a hidden asp-action="Delete" asp-route-id="@Model.CustId">Delete</a>
+        <p hidden id="note">(Please make sure all other information is deleted first.)</p>
     </div>
 
     <div>
         <h4>Address</h4>
-        <a asp-controller="Addresses" asp-action="Details" asp-route-id="@Model.CustId">Details</a>
+        <a asp-controller="Addresses" asp-action="AdminDetails" asp-route-id="@Model.CustId">Details</a>
+        <a hidden asp-controller="Addresses" asp-action="Delete" asp-route-id="@Model.CustId">Delete</a>
     </div>
 
     <div>
-    <h4>Contact Information</h4>
-        <a asp-controller="Contacts" asp-action="Details" asp-route-id="@Model.CustId">Details</a>
+        <h4>Contact Information</h4>
+        <a asp-controller="Contacts" asp-action="AdminDetails" asp-route-id="@Model.CustId">Details</a>
+        <a hidden asp-controller="Contacts" asp-action="Delete" asp-route-id="@Model.CustId">Delete</a>
     </div>
     
     <div>
         <h4>Dependents</h4>
-        <a asp-controller="Dependents" asp-action="Index" asp-route-id="@Model.CustId">Details</a>
+        <a asp-controller="Dependents" asp-action="AdminDetails" asp-route-id="@Model.CustId">Details</a>
     </div>
 
-        <div>
-            <h4>Direct Deposit Information</h4>
-            <a asp-controller="Deposits" asp-action="Details" asp-route-id="@Model.CustId">Details</a>
-        </div>
+    <div>
+        <h4>Direct Deposit Information</h4>
+        <a asp-controller="Deposits" asp-action="AdminDetails" asp-route-id="@Model.CustId">Details</a>
+        <a hidden asp-controller="Deposits" asp-action="Delete" asp-route-id="@Model.CustId">Delete</a>
+    </div>
 
-        <div>
-            <h4>Appointment</h4>
-            <a asp-controller="Appointments" asp-action="Details" asp-route-id="@Model.CustId">Details</a>
-        </div>
+    <div>
+        <h4>Appointment</h4>
+        <a asp-controller="Appointments" asp-action="AdminDetails" asp-route-id="@Model.CustId">Details</a>
+        <a hidden asp-controller="Appointments" asp-action="Delete" asp-route-id="@Model.CustId">Delete</a>
+    </div>
     </div>
 <div> 
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="AdminList">Administrator's List</a>
 </div>
 
 

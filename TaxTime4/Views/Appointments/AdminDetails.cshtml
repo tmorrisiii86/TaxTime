@@ -1,4 +1,4 @@
-﻿@model TaxTime4.Models.Deposit
+﻿@model TaxTime4.Models.Appointment
 
 @{
     ViewData["Title"] = "Details";
@@ -8,20 +8,20 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Deposit</h4>
+    <h4>Appointment</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Routing)
+            @Html.DisplayNameFor(model => model.LastAppt)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Routing)
+            @Html.DisplayFor(model => model.LastAppt)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Account)
+            @Html.DisplayNameFor(model => model.NextAppt)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Account)
+            @Html.DisplayFor(model => model.NextAppt)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.LastUpdated)
@@ -33,6 +33,7 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.CustId">Edit</a> |
-    <a asp-controller="Customers" asp-action="Index">Customer List</a> |
-    <a asp-controller="Customers" asp-action="AllCustomerInfo" asp-route-id="@Model.CustId">Customer Info</a>
+    <a asp-controller="Customers" asp-action="AdminList">Administrator Customer List</a> |
+    <a asp-controller="Customers" asp-action="AdminDetails" asp-route-id="@Model.CustId">Administrator Customer Info</a>
+
 </div>

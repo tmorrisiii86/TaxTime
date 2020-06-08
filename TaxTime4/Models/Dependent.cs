@@ -11,10 +11,11 @@ namespace TaxTime4.Models
         public int? CustId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public decimal Ssn1 { get; set; }
-        public decimal Ssn2 { get; set; }
-        public decimal Ssn3 { get; set; }
+        public int? Ssn1 { get; set; }
+        public  int? Ssn2 { get; set; }
+        public int? Ssn3 { get; set; }
         public DateTime LastUpdated { get; set; }
+        public bool CheckBox { get; set; }
 
         public Customer Cust { get; set; }
     }

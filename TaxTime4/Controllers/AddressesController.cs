@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,14 +16,16 @@ namespace TaxTime4.Controllers
     public class AddressesController : Controller
     {
         private readonly TaxTime4Context _context;
-        private bool id;
+        private UserManager<IdentityUser> _userManager;
 
-        public AddressesController(TaxTime4Context context)
+        public AddressesController(TaxTime4Context context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Addresses
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Index()
         {
             
@@ -30,6 +34,7 @@ namespace TaxTime4.Controllers
         }
 
         // GET: Addresses/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -39,7 +44,27 @@ namespace TaxTime4.Controllers
 
             var address = await _context.Address
                 .Include(a => a.Cust)
-                .FirstOrDefaultAsync(m => m.AddressId == id);
+                .FirstOrDefaultAsync(m => m.CustId == id);
+            if (address == null)
+            {
+                return NotFound();
+            }
+
+            return View(address);
+        }
+
+        // GET: AdminDetails
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> AdminDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var address = await _context.Address
+                .Include(a => a.Cust)
+                .FirstOrDefaultAsync(m => m.CustId == id);
             if (address == null)
             {
                 return NotFound();
@@ -49,6 +74,7 @@ namespace TaxTime4.Controllers
         }
 
         // GET: Addresses/Create
+        [Authorize]
         public IActionResult Create(int custId, Customer customer, Address address)
         {
             Address pass = new Address { CustId = custId };
@@ -63,6 +89,7 @@ namespace TaxTime4.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AddressId,CustId,Address1,Address2,City,State,ZipCode,LastUpdated")] Address address)
         {
@@ -87,6 +114,7 @@ namespace TaxTime4.Controllers
         }
 
         // GET: Addresses/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -107,6 +135,7 @@ namespace TaxTime4.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Address address)
         {
@@ -142,13 +171,14 @@ namespace TaxTime4.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Customers");
             }
             ViewData["CustId"] = new SelectList(_context.Customer, "CustId", "CustId", address.CustId);
             return View(address);
         }
 
         // GET: Addresses/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -158,7 +188,7 @@ namespace TaxTime4.Controllers
 
             var address = await _context.Address
                 .Include(a => a.Cust)
-                .FirstOrDefaultAsync(m => m.AddressId == id);
+                .FirstOrDefaultAsync(m => m.CustId == id);
             if (address == null)
             {
                 return NotFound();
@@ -169,13 +199,14 @@ namespace TaxTime4.Controllers
 
         // POST: Addresses/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var address = await _context.Address.FindAsync(id);
             _context.Address.Remove(address);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("AdminList", "Customers");
         }
 
         private bool AddressExists(int id)

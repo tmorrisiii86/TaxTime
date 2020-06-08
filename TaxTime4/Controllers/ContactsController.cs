@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,13 +14,16 @@ namespace TaxTime4.Controllers
     public class ContactsController : Controller
     {
         private readonly TaxTime4Context _context;
+        private UserManager<IdentityUser> _userManager;
 
-        public ContactsController(TaxTime4Context context)
+        public ContactsController(TaxTime4Context context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Contacts
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Index()
         {
             var taxTime4Context = _context.Contact.Include(c => c.Cust);
@@ -26,6 +31,7 @@ namespace TaxTime4.Controllers
         }
 
         // GET: Contacts/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,7 +41,27 @@ namespace TaxTime4.Controllers
 
             var contact = await _context.Contact
                 .Include(c => c.Cust)
-                .FirstOrDefaultAsync(m => m.ContactId == id);
+                .FirstOrDefaultAsync(m => m.CustId == id);
+            if (contact == null)
+            {
+                return NotFound();
+            }
+
+            return View(contact);
+        }
+
+        // Get: AdminDetails
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> AdminDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var contact = await _context.Contact
+                .Include(c => c.Cust)
+                .FirstOrDefaultAsync(m => m.CustId == id);
             if (contact == null)
             {
                 return NotFound();
@@ -45,6 +71,7 @@ namespace TaxTime4.Controllers
         }
 
         // GET: Contacts/Create
+        [Authorize]
         public IActionResult Create(int custId)
         {
             Contact pass = new Contact { CustId = custId };
@@ -57,6 +84,7 @@ namespace TaxTime4.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ContactId,CustId,Home1,Home2,Home3,Cell1,Cell2,Cell3,Work1,Work2,Work3,Email,LastUpdated,CheckBox")] Contact contact, bool checkBox)
         {
@@ -80,12 +108,13 @@ namespace TaxTime4.Controllers
                 _context.Contact.Add(NewContact);
                 await _context.SaveChangesAsync();
 
-                switch (NewContact.CheckBox)
+                if (NewContact.CheckBox == true)
                 {
-                    case true:
-                        return RedirectToAction("Create", "Dependents", new { CustId = NewContact.CustId });
-                    default:
-                        return RedirectToAction("Create", "Deposit", new { CustId = NewContact.CustId });
+                    return RedirectToAction("Create", "Dependents", new { CustId = NewContact.CustId });
+                }
+                else
+                { 
+                        return RedirectToAction("Create", "Deposits", new { CustId = NewContact.CustId });
                 }
             }
 
@@ -94,6 +123,7 @@ namespace TaxTime4.Controllers
         }
 
         // GET: Contacts/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -114,6 +144,7 @@ namespace TaxTime4.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Contact contact)
         {
@@ -154,13 +185,14 @@ namespace TaxTime4.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Customers");
             }
             ViewData["CustId"] = new SelectList(_context.Customer, "CustId", "CustId", contact.CustId);
             return View(contact);
         }
 
         // GET: Contacts/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -181,13 +213,14 @@ namespace TaxTime4.Controllers
 
         // POST: Contacts/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var contact = await _context.Contact.FindAsync(id);
             _context.Contact.Remove(contact);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("AdminList", "Customers");
         }
 
         private bool ContactExists(int id)

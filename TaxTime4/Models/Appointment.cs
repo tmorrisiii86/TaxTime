@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using TaxTime4.Models;
 
 namespace TaxTime4.Models
 {
     public partial class Appointment
     {
-        [Key]
+        [ForeignKey("CustId")]
         public int CustId { get; set; }
         public DateTime? LastAppt { get; set; }
         public DateTime? NextAppt { get; set; }
@@ -15,8 +16,6 @@ namespace TaxTime4.Models
 
         public Customer Cust { get; set; }
 
-        public Contact Contact { get; set; }
-        public Customer Customer { get; set; }
 
     }
 }

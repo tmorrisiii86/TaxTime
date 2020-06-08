@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,13 +15,16 @@ namespace TaxTime4.Controllers
     public class AppointmentsController : Controller
     {
         private readonly TaxTime4Context _context;
+        private UserManager<IdentityUser> _userManager;
 
-        public AppointmentsController(TaxTime4Context context)
+        public AppointmentsController(TaxTime4Context context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Appointments
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Index()
         {
             var taxTime4Context = _context.Appointment.Include(a => a.Cust);
@@ -27,13 +32,18 @@ namespace TaxTime4.Controllers
         }
 
         // GET: Cold Call Infomation
+        [Authorize]
         public async Task<IActionResult> ColdCall()
         {
-            var taxTime4Context = _context.Appointment.Include(a => a.Cust);
-            return View(await taxTime4Context.ToListAsync());
+            var appointments = _context.Appointment.Include(a => a.Cust)
+                .Where(app => app.NextAppt == null)
+                .ToList();
+
+            return View(appointments);
         }
 
         // GET: Appointments/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -52,7 +62,28 @@ namespace TaxTime4.Controllers
             return View(appointment);
         }
 
+        // GET: AdminDetails/5
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> AdminDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var appointment = await _context.Appointment
+                .Include(a => a.Cust)
+                .FirstOrDefaultAsync(m => m.CustId == id);
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+
+            return View(appointment);
+        }
+
         // GET: Appointments/Create
+        [Authorize]
         public IActionResult Create(int custId, Customer customer)
         {
             Appointment pass = new Appointment { CustId = custId };
@@ -67,8 +98,9 @@ namespace TaxTime4.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Appointment appointment)
+        public async Task<IActionResult> Create([Bind("CustId,LastAppt,NextAppt,LastUpdated")] Appointment appointment)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +111,7 @@ namespace TaxTime4.Controllers
                 NewAppointment.LastUpdated = appointment.LastUpdated = DateTime.Now;
                 _context.Appointment.Add(NewAppointment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("AllCustomerInfo", "Customers", new { CustId = NewAppointment.CustId });
+                return RedirectToAction("Index", "Customers");
             }
 
             ViewData["CustId"] = new SelectList(_context.Customer, "CustId", "CustId", appointment.CustId);
@@ -87,6 +119,7 @@ namespace TaxTime4.Controllers
         }
 
         // GET: Appointments/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -95,6 +128,10 @@ namespace TaxTime4.Controllers
             }
 
             var appointment = await _context.Appointment.FindAsync(id);
+            appointment.LastAppt = appointment.NextAppt;
+            appointment.NextAppt = null;
+            appointment.LastUpdated = DateTime.Now;
+
             if (appointment == null)
             {
                 return NotFound();
@@ -107,6 +144,7 @@ namespace TaxTime4.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CustId,LastAppt,NextAppt,LastUpdated")] Appointment appointment)
         {
@@ -138,13 +176,14 @@ namespace TaxTime4.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Customers");
             }
             ViewData["CustId"] = new SelectList(_context.Customer, "CustId", "FirstName", appointment.CustId);
             return View(appointment);
         }
 
         // GET: Appointments/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -165,13 +204,14 @@ namespace TaxTime4.Controllers
 
         // POST: Appointments/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var appointment = await _context.Appointment.FindAsync(id);
             _context.Appointment.Remove(appointment);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("AdminList", "Customers");
         }
 
         private bool AppointmentExists(int id)

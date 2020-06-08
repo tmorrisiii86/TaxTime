@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,13 +14,16 @@ namespace TaxTime4.Controllers
     public class DepositsController : Controller
     {
         private readonly TaxTime4Context _context;
+        private UserManager<IdentityUser> _userManager;
 
-        public DepositsController(TaxTime4Context context)
+        public DepositsController(TaxTime4Context context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Deposits
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Index()
         {
             var taxTime4Context = _context.Deposit.Include(d => d.Cust);
@@ -26,6 +31,7 @@ namespace TaxTime4.Controllers
         }
 
         // GET: Deposits/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,7 +50,28 @@ namespace TaxTime4.Controllers
             return View(deposit);
         }
 
+        // GET: AdminDetails
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> AdminDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var deposit = await _context.Deposit
+                .Include(d => d.Cust)
+                .FirstOrDefaultAsync(m => m.CustId == id);
+            if (deposit == null)
+            {
+                return NotFound();
+            }
+
+            return View(deposit);
+        }
+
         // GET: Deposits/Create
+        [Authorize]
         public IActionResult Create(int custId)
         {
             Deposit pass = new Deposit { CustId = custId };
@@ -58,6 +85,7 @@ namespace TaxTime4.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Deposit deposit)
         {
@@ -78,6 +106,7 @@ namespace TaxTime4.Controllers
         }
 
         // GET: Deposits/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -98,6 +127,7 @@ namespace TaxTime4.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Deposit deposit)
         {
@@ -129,13 +159,14 @@ namespace TaxTime4.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Customers");
             }
             ViewData["CustId"] = new SelectList(_context.Customer, "CustId", "CustId", deposit.CustId);
             return View(deposit);
         }
 
         // GET: Deposits/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -156,13 +187,14 @@ namespace TaxTime4.Controllers
 
         // POST: Deposits/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var deposit = await _context.Deposit.FindAsync(id);
             _context.Deposit.Remove(deposit);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("AdminList", "Customers");
         }
 
         private bool DepositExists(int id)

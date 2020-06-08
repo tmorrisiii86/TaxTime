@@ -16,7 +16,7 @@ namespace TaxTime4.Models
         public string Address2 { get; set; }
         public string City { get; set; }
         public string State { get; set; }
-        public decimal ZipCode { get; set; }
+        public int? ZipCode { get; set; }
         public DateTime LastUpdated { get; set; }
 
         public Customer Cust { get; set; }

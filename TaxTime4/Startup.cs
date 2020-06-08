@@ -52,7 +52,8 @@ namespace TaxTime4
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, RoleManager<IdentityRole> roleManager,
+            UserManager<IdentityUser> userManager)
         {
             if (env.IsDevelopment())
             {
@@ -75,8 +76,11 @@ namespace TaxTime4
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Customers}/{action=Index}/{id?}");
             });
+
+            SetupSecurity.SeedRoles(roleManager);
+            SetupSecurity.SeedUsers(userManager);
         }
     }
 }

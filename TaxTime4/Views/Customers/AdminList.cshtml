@@ -1,15 +1,19 @@
-﻿@model IEnumerable<TaxTime4.Models.Dependent>
+﻿@model IEnumerable<TaxTime4.Models.Customer>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "AdminList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Dependents</h2>
+<h2>Administrator's Customer List</h2>
 
-<form asp-controller="Dependents" asp-action="Index" hidden>
+<p hidden>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-controller="Customers" asp-action="AdminList">
     <p>
-        CustId: <input type="number" value="@Model" name="SearchString" />
+        Last Name: <input type="text" name="SearchString" />
         <input type="submit" value="Filter" />
     </p>
 </form>
@@ -33,9 +37,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LastUpdated)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cust)
             </th>
             <th></th>
         </tr>
@@ -62,12 +63,7 @@
                 @Html.DisplayFor(modelItem => item.LastUpdated)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Cust.FirstName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.DepId">Edit</a> |
-                <a asp-controller="Customers" asp-action="AllCustomerInfo" asp-route-id="@item.CustId">Customer Info</a> |
-                <a hidden asp-action="Delete" asp-route-id="@item.DepId">Delete</a>
+                <a asp-action="AdminDetails" asp-route-id="@item.CustId">Administrator's Customer Info</a>
             </td>
         </tr>
 }

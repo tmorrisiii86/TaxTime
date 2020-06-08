@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Cold Call List</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -14,19 +14,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Customer.LastName)
+                @Html.DisplayNameFor(model => model.Cust.LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Customer.LastName)
+                @Html.DisplayNameFor(model => model.Cust.FirstName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LastAppt)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.NextAppt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contact.Email)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LastUpdated)
@@ -38,10 +35,10 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelitem => item.Customer.LastName)
+                    @Html.DisplayFor(modelitem => item.Cust.LastName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelitem => item.Customer.FirstName)
+                    @Html.DisplayFor(modelitem => item.Cust.FirstName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.LastAppt)
@@ -50,14 +47,8 @@
                     @Html.DisplayFor(modelItem => item.NextAppt)
                 </td>
                 <td>
-                    @Html.DisplayNameFor(modelitem => item.Contact.Email)
-                </td>
-                <th>
-                    @Html.DisplayNameFor(modelitem => item.LastUpdated)
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.CustId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.CustId">Details</a> 
-                    <a asp-action="Delete" asp-route-id="@item.CustId">Delete</a>
+                    <a asp-controller="Contacts" asp-action="Details" asp-route-id="@item.CustId">Contacts</a> |
+                    <a asp-action="Edit" asp-route-id="@item.CustId">New Appointment</a>
                 </td>
             </tr>
         }

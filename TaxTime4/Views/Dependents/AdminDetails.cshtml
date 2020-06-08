@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<TaxTime4.Models.Dependent>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "AdminDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Dependents</h2>
+<h2>Administrator Dependents List</h2>
 
 <form asp-controller="Dependents" asp-action="Index" hidden>
     <p>
@@ -66,8 +66,8 @@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.DepId">Edit</a> |
-                <a asp-controller="Customers" asp-action="AllCustomerInfo" asp-route-id="@item.CustId">Customer Info</a> |
-                <a hidden asp-action="Delete" asp-route-id="@item.DepId">Delete</a>
+                <a asp-controller="Customers" asp-action="AdminDetails" asp-route-id="@item.CustId">Administrator Customer Info</a> |
+                <a asp-action="Delete" asp-route-id="@item.DepId">Delete</a>
             </td>
         </tr>
 }

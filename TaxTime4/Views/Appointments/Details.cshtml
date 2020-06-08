@@ -29,15 +29,10 @@
         <dd>
             @Html.DisplayFor(model => model.LastUpdated)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Cust)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Cust.FirstName)
-        </dd>
     </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.CustId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Customers" asp-action="Index">Customer List</a> |
+    <a asp-controller="Customers" asp-action="AllCustomerInfo" asp-route-id="@Model.CustId">Customer Info</a>
 </div>

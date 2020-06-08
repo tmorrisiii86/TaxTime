@@ -22,33 +22,33 @@
             <div class="form-group">
                 <label asp-for="Home1" class="control-label">Home #</label>
                 <div class="input-group">
-                    <input asp-for="Home1" maxlength="3" style="width: 60px;" class="form-control" />
+                    <input asp-for="Home1" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" type="number" style="width: 60px;" class="form-control" />
                     <span asp-validation-for="Home1" class="text-danger"></span>
-                    <input asp-for="Home2" maxlength="3" style="width: 60px" class="form-control" />
+                    <input asp-for="Home2" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" type="number" style="width: 60px" class="form-control" />
                     <span asp-validation-for="Home2" class="text-danger"></span>
-                    <input asp-for="Home3" maxlength="4" style="width: 70px;" class="form-control" />
+                    <input asp-for="Home3" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="4" type="number" style="width: 70px;" class="form-control" />
                     <span asp-validation-for="Home3" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group">
                 <label asp-for="Cell1" class="control-label">Cell #</label>
                 <div class="input-group">
-                    <input asp-for="Cell1" maxlength="3" style="width: 60px;" class="form-control" />
+                    <input asp-for="Cell1" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" type="number" style="width: 60px;" class="form-control" />
                     <span asp-validation-for="Cell1" class="text-danger"></span>
-                    <input asp-for="Cell2" maxlength="3" style="width: 60px;" class="form-control" />
+                    <input asp-for="Cell2" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" type="number" style="width: 60px;" class="form-control" />
                     <span asp-validation-for="Cell2" class="text-danger"></span>
-                    <input asp-for="Cell3" maxlength="4" style="width: 70px;" class="form-control" />
+                    <input asp-for="Cell3" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="4" type="number" style="width: 70px;" class="form-control" />
                     <span asp-validation-for="Cell3" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group">
                 <label asp-for="Work1" class="control-label">Work #</label>
                 <div class="input-group">
-                    <input asp-for="Work1" maxlength="3" style="width: 60px;" class="form-control" />
+                    <input asp-for="Work1" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" type="number" style="width: 60px;" class="form-control" />
                     <span asp-validation-for="Work1" class="text-danger"></span>
-                    <input asp-for="Work2" maxlength="3" style="width: 60px;" class="form-control" />
+                    <input asp-for="Work2" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="3" type="number" style="width: 60px;" class="form-control" />
                     <span asp-validation-for="Work2" class="text-danger"></span>
-                    <input asp-for="Work3" maxlength="4" style="width:70px;" class="form-control" />
+                    <input asp-for="Work3" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="4" type="number" style="width:70px;" class="form-control" />
                     <span asp-validation-for="Work3" class="text-danger"></span>
                 </div>
             </div>>
@@ -63,10 +63,7 @@
                 <span asp-validation-for="LastUpdated" class="text-danger"></span>
             </div>
             <div class="form-group">
-                @Html.CheckBoxFor(x => x.CheckBox)
-            </div>
-            <div class="form-group">
-                <input asp-for="CheckBox"  type="checkbox" class="form-control" />
+                <input asp-for="CheckBox" type="checkbox" class="form-control" />
                 <label>Depenents?</label>
             </div>
             <div class="form-group">

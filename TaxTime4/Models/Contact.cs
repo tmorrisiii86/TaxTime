@@ -11,15 +11,15 @@ namespace TaxTime4.Models
         public int ContactId { get; set; }
         [ForeignKey("CustId")]
         public int? CustId { get; set; }
-        public decimal? Home1 { get; set; }
-        public decimal? Home2 { get; set; }
-        public decimal? Home3 { get; set; }
-        public decimal? Cell1 { get; set; }
-        public decimal? Cell2 { get; set; }
-        public decimal? Cell3 { get; set; }
-        public decimal? Work1 { get; set; }
-        public decimal? Work2 { get; set; }
-        public decimal? Work3 { get; set; }
+        public int? Home1 { get; set; }
+        public int? Home2 { get; set; }
+        public int? Home3 { get; set; }
+        public int? Cell1 { get; set; }
+        public int? Cell2 { get; set; }
+        public int? Cell3 { get; set; }
+        public int? Work1 { get; set; }
+        public int? Work2 { get; set; }
+        public int? Work3 { get; set; }
         public string Email { get; set; }
         public DateTime LastUpdated { get; set; }
         public bool CheckBox { get; set; }

@@ -14,7 +14,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="CustId" />
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="LastAppt" class="control-label"></label>
                 <input asp-for="LastAppt" class="form-control" />
                 <span asp-validation-for="LastAppt" class="text-danger"></span>
@@ -24,7 +24,7 @@
                 <input asp-for="NextAppt" class="form-control" />
                 <span asp-validation-for="NextAppt" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group"hidden>
                 <label asp-for="LastUpdated" class="control-label"></label>
                 <input asp-for="LastUpdated" class="form-control" />
                 <span asp-validation-for="LastUpdated" class="text-danger"></span>
@@ -37,7 +37,8 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Customers" asp-action="AllCustomerInfo" asp-route-id="@Model.CustId">Customer Info</a>
+    <a asp-controller="Appointments" asp-action="ColdCall">Cold Call</a>
 </div>
 
 @section Scripts {
