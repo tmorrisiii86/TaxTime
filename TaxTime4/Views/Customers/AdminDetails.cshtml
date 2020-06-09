@@ -50,7 +50,7 @@
     </dl>
     <div>
         <a asp-action="Edit" asp-route-id="@Model.CustId">Edit</a>
-        <a hidden asp-action="Delete" asp-route-id="@Model.CustId">Delete</a>
+        <a hidden asp-controller="Delete" asp-action="DeleteAll" asp-route-id="@Model.CustId">Delete</a>
         <p hidden id="note">(Please make sure all other information is deleted first.)</p>
     </div>
 
