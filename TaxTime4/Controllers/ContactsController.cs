@@ -185,7 +185,7 @@ namespace TaxTime4.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index", "Customers");
+                    return RedirectToAction("Index", "Customers");
             }
             ViewData["CustId"] = new SelectList(_context.Customer, "CustId", "CustId", contact.CustId);
             return View(contact);
